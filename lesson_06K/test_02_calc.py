@@ -21,15 +21,15 @@ def test_slow_calc(browser):
         "7": (By.XPATH, "//span[text()='7']"),
         "+": (By.XPATH, "//span[text()='+']"),
         "8": (By.XPATH, "//span[text()='8']"),
-        "=": (By.XPATH, "//span[text()='=']")
+        "=": (By.XPATH, "//span[text()='=']"),
     }
     for text, locator in buttons.items():
         el = wait.until(EC.element_to_be_clickable(locator))
         el.click()
 
     # === РЕЗУЛЬТАТ (явное ожидание) ===
-    result = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "screen")))
-    assert result.text.strip() == "15", f"Ожидали '15', а получили '{result.text}'"
-
+    result = wait.until(
+        EC.text_to_be_present_in_element((By.CLASS_NAME, "screen"), "15")
+    )
+    assert result
     driver.quit()
-    

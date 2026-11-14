@@ -12,15 +12,19 @@ def test_shop(browser):
     driver.get("https://www.saucedemo.com/")
 
     # === АВТОРИЗАЦИЯ ===
-    wait.until(EC.presence_of_element_located((By.ID, "user-name"))).send_keys("standard_user")
-    wait.until(EC.presence_of_element_located((By.ID, "password"))).send_keys("secret_sauce")
+    wait.until(EC.presence_of_element_located((By.ID, "user-name"))).send_keys(
+        "standard_user"
+    )
+    wait.until(EC.presence_of_element_located((By.ID, "password"))).send_keys(
+        "secret_sauce"
+    )
     driver.find_element(By.ID, "login-button").click()
 
     # === ДОБАВЛЕНИЕ ТОВАРОВ (точные id кнопок) ===
     products = [
         ("Sauce Labs Backpack", "add-to-cart-sauce-labs-backpack"),
         ("Sauce Labs Bolt T-Shirt", "add-to-cart-sauce-labs-bolt-t-shirt"),
-        ("Sauce Labs Onesie", "add-to-cart-sauce-labs-onesie")
+        ("Sauce Labs Onesie", "add-to-cart-sauce-labs-onesie"),
     ]
     for _, product_id in products:
         wait.until(EC.element_to_be_clickable((By.ID, product_id))).click()
@@ -36,14 +40,17 @@ def test_shop(browser):
     # === ДАННЫЕ ===
     wait.until(EC.presence_of_element_located((By.ID, "first-name"))).send_keys("Иван")
     wait.until(EC.presence_of_element_located((By.ID, "last-name"))).send_keys("Петров")
-    wait.until(EC.presence_of_element_located((By.ID, "postal-code"))).send_keys("123456")
+    wait.until(EC.presence_of_element_located((By.ID, "postal-code"))).send_keys(
+        "123456"
+    )
 
     wait.until(EC.element_to_be_clickable((By.ID, "continue"))).click()
 
     # === ИТОГОВАЯ СУММА ===
-    total_el = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "summary_total_label")))
+    total_el = wait.until(
+        EC.presence_of_element_located((By.CLASS_NAME, "summary_total_label"))
+    )
     total_text = total_el.text
     assert total_text == "Total: $58.29", f"Ожидали $58.29, а получили {total_text}"
 
     driver.quit()
-    
